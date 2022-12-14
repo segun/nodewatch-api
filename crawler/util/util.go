@@ -19,6 +19,9 @@ import (
 	"github.com/protolambda/ztyp/codec"
 )
 
+const GBCGenesisTimestamp = 1638993340
+const GBCSecondsPerSlot = 5
+
 func AddrsFromEnode(node *enode.Node) (*peer.AddrInfo, error) {
 	madds, err := EnodeToMultiAddr(node)
 	if err != nil {
@@ -137,11 +140,10 @@ func (aee AttnetsENREntry) String() string {
 }
 
 func getGenesisTime() time.Time {
-	t, _ := time.Parse(time.RFC822, "01 Dec 20 12:00 GMT")
-	return t
+	return time.Unix(GBCGenesisTimestamp, 0)
 }
 
 func CurrentBlock() int64 {
 	duration := time.Since(getGenesisTime())
-	return int64((duration / time.Second) / 12)
+	return int64((duration / time.Second) / GBCSecondsPerSlot)
 }
