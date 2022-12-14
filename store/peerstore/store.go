@@ -29,4 +29,5 @@ type Provider interface {
 	AggregateByNetworkType(ctx context.Context, peerFilter *model.PeerFilter) ([]*models.AggregateData, error)
 	AggregateBySyncStatus(ctx context.Context, peerFilter *model.PeerFilter) (*models.SyncAggregateData, error)
 	AggregateByClientVersion(ctx context.Context, peerFilter *model.PeerFilter) ([]*models.ClientVersionAggregation, error)
+	AggregateByHostName(ctx context.Context) ([]*models.AggregateData, error)
 }

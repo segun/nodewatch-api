@@ -96,6 +96,7 @@ type ComplexityRoot struct {
 		GetNodeStats                func(childComplexity int, peerFilter *model.PeerFilter) int
 		GetNodeStatsOverTime        func(childComplexity int, start float64, end float64, peerFilter *model.PeerFilter) int
 		GetRegionalStats            func(childComplexity int, peerFilter *model.PeerFilter) int
+		AggregateByHost             func(childComplexity int) int
 	}
 
 	RegionalStats struct {
@@ -117,6 +118,7 @@ type QueryResolver interface {
 	GetNodeStatsOverTime(ctx context.Context, start float64, end float64, peerFilter *model.PeerFilter) ([]*model.NodeStatsOverTime, error)
 	GetRegionalStats(ctx context.Context, peerFilter *model.PeerFilter) (*model.RegionalStats, error)
 	GetAltairUpgradePercentage(ctx context.Context, peerFilter *model.PeerFilter) (float64, error)
+	AggregateByHost(ctx context.Context) ([]*model.AggregateData, error)
 }
 
 type executableSchema struct {
@@ -365,6 +367,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.AggregateByOperatingSystem(childComplexity, args["peerFilter"].(*model.PeerFilter)), true
 
+	case "Query.aggregateByHost":
+		if e.complexity.Query.AggregateByHost == nil {
+			break
+		}
+
+		return e.complexity.Query.AggregateByHost(childComplexity), true
+
 	case "Query.getAltairUpgradePercentage":
 		if e.complexity.Query.GetAltairUpgradePercentage == nil {
 			break
@@ -583,6 +592,41 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 	}
 	args["name"] = arg0
 	return args, nil
+}
+
+func (ec *executionContext) _Query_aggregateByHost(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().AggregateByHost(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.AggregateData)
+	fc.Result = res
+	return ec.marshalNAggregateData2ᚕᚖeth2ᚑcrawlerᚋgraphᚋmodelᚐAggregateDataᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) field_Query_aggregateByAgentName_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {

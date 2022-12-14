@@ -151,6 +151,21 @@ func (r *queryResolver) GetHeatmapData(ctx context.Context, peerFilter *model.Pe
 	return result, nil
 }
 
+func (r *queryResolver) AggregateByHost(ctx context.Context) ([]*model.AggregateData, error) {
+	aggregateData, err := r.peerStore.AggregateByHostName(ctx)
+	if err != nil {
+		return nil, err
+	}
+	result := []*model.AggregateData{}
+	for i := range aggregateData {
+		result = append(result, &model.AggregateData{
+			Name:  aggregateData[i].Name,
+			Count: aggregateData[i].Count,
+		})
+	}
+	return result, nil
+}
+
 // GetNodeStats is the resolver for the getNodeStats field.
 func (r *queryResolver) GetNodeStats(ctx context.Context, peerFilter *model.PeerFilter) (*model.NodeStats, error) {
 	aggregateData, err := r.peerStore.AggregateBySyncStatus(ctx, peerFilter)
