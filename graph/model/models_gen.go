@@ -30,6 +30,7 @@ type NextHardforkAggregation struct {
 }
 
 type NodeStats struct {
+	DiscoveredPeers        int     `json:"discoveredPeers"`
 	TotalNodes             int     `json:"totalNodes"`
 	NodeSyncedPercentage   float64 `json:"nodeSyncedPercentage"`
 	NodeUnsyncedPercentage float64 `json:"nodeUnsyncedPercentage"`

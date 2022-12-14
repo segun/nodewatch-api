@@ -1,6 +1,3 @@
-// Copyright 2022 ChainSafe Systems
-// SPDX-License-Identifier: LGPL-3.0-only
-
 package graph
 
 // This file will be automatically regenerated based on the schema, any resolver implementations
@@ -162,7 +159,8 @@ func (r *queryResolver) GetNodeStats(ctx context.Context, peerFilter *model.Peer
 	}
 	return &model.NodeStats{
 		TotalNodes:             aggregateData.Total,
-		NodeSyncedPercentage:   (float64(aggregateData.Synced) / float64(aggregateData.Total)) * 100,
+		DiscoveredPeers:        aggregateData.DiscoveredPeers,
+		NodeSyncedPercentage:   (float64(aggregateData.Synced) / float64(aggregateData.Total)) * 00,
 		NodeUnsyncedPercentage: (float64(aggregateData.Unsynced) / float64(aggregateData.Total)) * 100,
 	}, nil
 }

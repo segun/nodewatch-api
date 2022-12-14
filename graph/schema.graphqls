@@ -17,6 +17,7 @@ type ClientVersionAggregation {
 
 type NodeStats {
   totalNodes: Int!
+  discoveredPeers: Int!
   nodeSyncedPercentage: Float!
   nodeUnsyncedPercentage: Float!
 }

@@ -414,9 +414,10 @@ type count struct {
 }
 
 type aggregateSyncData struct {
-	Total    []count `json:"total" bson:"total"`
-	Synced   []count `json:"synced" bson:"synced"`
-	Unsynced []count `json:"unsynced" bson:"unsynced"`
+	Total           []count `json:"total" bson:"total"`
+	DiscoveredPeers []count `json:"discoveredPeers" bson:"discoveredPeers"`
+	Synced          []count `json:"synced" bson:"synced"`
+	Unsynced        []count `json:"unsynced" bson:"unsynced"`
 }
 
 func (s *mongoStore) AggregateBySyncStatus(ctx context.Context, peerFilter *model.PeerFilter) (*models.SyncAggregateData, error) {
@@ -456,6 +457,9 @@ func (s *mongoStore) AggregateBySyncStatus(ctx context.Context, peerFilter *mode
 		}
 		if len(data.Total) != 0 {
 			result.Total = data.Total[0].Count
+		}
+		if len(data.DiscoveredPeers) != 0 {
+			result.DiscoveredPeers = data.DiscoveredPeers[0].Count
 		}
 		if len(data.Synced) != 0 {
 			result.Synced = data.Synced[0].Count

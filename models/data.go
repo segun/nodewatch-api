@@ -28,7 +28,8 @@ type HistoryCount struct {
 }
 
 type SyncAggregateData struct {
-	Total    int `json:"total" bson:"total"`
-	Synced   int `json:"synced" bson:"synced"`
-	Unsynced int `json:"unsynced" bson:"unsynced"`
+	Total           int `json:"total" bson:"total"`
+	DiscoveredPeers int `json:"discoveredPeers" bson:"discoveredPeers"`
+	Synced          int `json:"synced" bson:"synced"`
+	Unsynced        int `json:"unsynced" bson:"unsynced"`
 }
