@@ -61,4 +61,5 @@ type Query {
   getNodeStatsOverTime(start: Float!, end: Float!, peerFilter: PeerFilter): [NodeStatsOverTime!]!
   getRegionalStats(peerFilter: PeerFilter): RegionalStats!
   getAltairUpgradePercentage(peerFilter: PeerFilter): Float!
+  aggregateByHostName(peerFilter: PeerFilter): [AggregateData!]!
 }

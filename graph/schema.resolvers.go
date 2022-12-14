@@ -151,7 +151,7 @@ func (r *queryResolver) GetHeatmapData(ctx context.Context, peerFilter *model.Pe
 	return result, nil
 }
 
-func (r *queryResolver) AggregateByHost(ctx context.Context) ([]*model.AggregateData, error) {
+func (r *queryResolver) AggregateByHostName(ctx context.Context) ([]*model.AggregateData, error) {
 	aggregateData, err := r.peerStore.AggregateByHostName(ctx)
 	if err != nil {
 		return nil, err
